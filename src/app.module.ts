@@ -43,7 +43,7 @@ import { WxpayModule } from './modules/wxpay/wxpay.module';
         }),
         GraphQLModule.forRoot({
             driver: ApolloDriver,
-            autoSchemaFile: './schema.gql',
+            autoSchemaFile: '/schema.gql',
         }),
         UserModule,
         OSSModule,
