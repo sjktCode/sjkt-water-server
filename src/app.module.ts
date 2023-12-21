@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 
@@ -25,13 +27,15 @@ import { WxpayModule } from './modules/wxpay/wxpay.module';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
-            type: 'mysql',
-            host: process.env.MYSQL_HOST,
-            // eslint-disable-next-line radix
-            port: parseInt(process.env.MYSQL_PORT),
-            username: process.env.MYSQL_USERNAME,
-            password: process.env.MYSQL_PASSWORD,
-            database: process.env.MYSQL_DATABASE,
+            // type: 'mysql',
+            // host: process.env.MYSQL_HOST,
+            // // eslint-disable-next-line radix
+            // port: parseInt(process.env.MYSQL_PORT),
+            // username: process.env.MYSQL_USERNAME,
+            // password: process.env.MYSQL_PASSWORD,
+            // database: process.env.MYSQL_DATABASE,
+            type: 'better-sqlite3',
+            database: resolve(__dirname, '../database.db'),
             entities: [`${__dirname}/../module/**/*.entity{.ts,.js}`],
             logging: true,
             synchronize: true,

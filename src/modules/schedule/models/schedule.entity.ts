@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, UpdateDateColumn } from 'typeorm';
 
 import { CommonEntity } from '@/common/entities/common.entity';
 import { Course } from '@/modules/course/models/course.entity';
@@ -11,10 +11,9 @@ import { Teacher } from '@/modules/teacher/models/teacher.entity';
  */
 @Entity('schedule')
 export class Schedule extends CommonEntity {
-    @Column({
+    @UpdateDateColumn({
         comment: '上课日期',
         nullable: true,
-        type: 'timestamp',
     })
     schoolDay: Date;
 

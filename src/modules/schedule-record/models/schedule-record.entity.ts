@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, UpdateDateColumn } from 'typeorm';
 
 import { CommonEntity } from '@/common/entities/common.entity';
 import { CardRecord } from '@/modules/cardrecord/models/card-record.entity';
@@ -12,9 +12,8 @@ import { Student } from '@/modules/student/models/student.entity';
  */
 @Entity('scheduleRecord')
 export class ScheduleRecord extends CommonEntity {
-    @Column({
+    @UpdateDateColumn({
         comment: '预约时间',
-        type: 'timestamp',
         nullable: true,
     })
     subscribeTime: Date;

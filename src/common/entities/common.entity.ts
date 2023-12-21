@@ -5,15 +5,16 @@ import {
     Column,
     PrimaryGeneratedColumn,
     DeleteDateColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 
 export class CommonEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({
+    @CreateDateColumn({
         comment: '创建时间',
-        type: 'timestamp',
     })
     createdAt: Date;
 
@@ -24,9 +25,8 @@ export class CommonEntity {
     @IsOptional()
     createdBy: string;
 
-    @Column({
+    @UpdateDateColumn({
         comment: '修改时间',
-        type: 'timestamp',
         nullable: true,
     })
     updatedAt: Date;
@@ -40,7 +40,6 @@ export class CommonEntity {
 
     @Column({
         comment: '删除时间',
-        type: 'timestamp',
         nullable: true,
     })
     @DeleteDateColumn()
