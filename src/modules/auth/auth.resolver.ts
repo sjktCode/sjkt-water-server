@@ -74,6 +74,35 @@ export class AuthResolver {
         };
     }
 
+    @Mutation(() => Result, { description: '通过密码去登录' })
+    async loginByPassword(
+        @Args('tel') tel: string,
+        @Args('password') password: string,
+    ): Promise<Result> {
+        const user = await this.userService.findByTel(tel);
+        if (!user) {
+            return {
+                code: ACCOUNT_NOT_EXIST,
+                message: '账号不存在',
+            };
+        }
+        // 需要对密码进行 md5 加密
+        if (user.password === md5(password)) {
+            const token = this.jwtService.sign({
+                id: user.id,
+            });
+            return {
+                code: SUCCESS,
+                message: '登录成功',
+                data: token,
+            };
+        }
+        return {
+            code: LOGIN_ERROR,
+            message: '登录失败，账号或者密码不对',
+        };
+    }
+
     @Mutation(() => Result, { description: '学员登录' })
     async studentLogin(
         @Args('account') account: string,

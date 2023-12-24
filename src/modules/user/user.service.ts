@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import md5 from 'md5';
 import { DeepPartial, Repository } from 'typeorm';
 
 import { User } from './models/user.entity';
@@ -29,7 +30,8 @@ export class UserService {
 
     // 更新一个用户
     async update(id: string, entity: DeepPartial<User>): Promise<boolean> {
-        const res = await this.userRepository.update(id, entity);
+        const saveUser = { ...entity, password: md5(entity.password) };
+        const res = await this.userRepository.update(id, saveUser);
         if (res.affected > 0) {
             return true;
         }

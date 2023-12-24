@@ -10,4 +10,7 @@ export class UserInput {
 
     @Field({ description: '头像' })
     avatar: string;
+
+    @Field({ description: '密码' })
+    password: string;
 }

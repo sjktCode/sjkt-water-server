@@ -82,24 +82,26 @@ export class ProductService {
             longitude: number;
         };
     }): Promise<{ entities: Product[]; raw: any[] }> {
-        return this.productRepository
-            .createQueryBuilder('product')
-            .select('product')
-            .addSelect(
-                `
-        ST_Distance(ST_GeomFromText('POINT(${position.latitude} ${position.longitude})', 4326), 
-        ST_GeomFromText(CONCAT('POINT(', organization.latitude, ' ', organization.longitude, ')'), 4326))
-      `,
-                'distance',
-            )
-            .innerJoinAndSelect('product.organization', 'organization')
-            .where(`product.status = '${ProductStatus.LIST}'`)
-            .andWhere(`product.name LIKE '%${(where.name as string) || ''}%'`)
-            .andWhere(where.type ? `product.type = '${where.type as string}'` : '1=1')
-            .orderBy('distance', 'ASC')
-            .take(length)
-            .skip(start)
-            .getRawAndEntities();
+        return (
+            this.productRepository
+                .createQueryBuilder('product')
+                .select('product')
+                //         .addSelect(
+                //             `
+                //     ST_Distance(ST_GeomFromText('POINT(${position.latitude} ${position.longitude})', 4326),
+                //     ST_GeomFromText(CONCAT('POINT(', organization.latitude, ' ', organization.longitude, ')'), 4326))
+                //   `,
+                //             'distance',
+                //         )
+                .innerJoinAndSelect('product.organization', 'organization')
+                .where(`product.status = '${ProductStatus.LIST}'`)
+                .andWhere(`product.name LIKE '%${(where.name as string) || ''}%'`)
+                .andWhere(where.type ? `product.type = '${where.type as string}'` : '1=1')
+                // .orderBy('distance', 'ASC')
+                .take(length)
+                .skip(start)
+                .getRawAndEntities()
+        );
     }
 
     async getCount(options: { where: FindOptionsWhere<Product> }) {
